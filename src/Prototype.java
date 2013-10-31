@@ -29,15 +29,19 @@ public class Prototype extends JFrame{
     private CONTENT content;
     private boolean gameStarted = false;
     public Prototype(){
+        content = CONTENT.DIRT;
+        showGUI();
+    }
+    //Здесь создаётся интерфейс
+    public void showGUI(){
         //Мышка
         PlayerInput adapter = new PlayerInput();
         //Мир
         world = new World();
-        content = CONTENT.DIRT;
-        world.addMouseListener(adapter);
-        world.addMouseMotionListener(adapter);
         add(world);
         //Инструменты
+        world.addMouseListener(adapter);
+        world.addMouseMotionListener(adapter);
         labelX = new JLabel("X: 0");
         labelY = new JLabel("Y: 0");
         BtnActionListener listener = new BtnActionListener();

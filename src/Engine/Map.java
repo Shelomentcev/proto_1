@@ -10,21 +10,21 @@ import java.awt.Graphics2D;
  * Time: 9:03
  * To change this template use File | Settings | File Templates.
  */
-//Класс карты, хранит в себе WorldChunk'и
+//Класс карты, хранит в себе WChunk'и
 public class Map {
     private Chunk[][] chunks;
     private int width, height;
     //Пока что генерирует сетку из чанков 50 на 50.
     Map(){
         height = width = 50;
-        chunks = new WorldChunk[height][width];
+        chunks = new WChunk[height][width];
         for(int i = 0; i<height; i++){
             for(int j = 0; j<width; j++){
-                chunks[i][j] = new WorldChunk(j*10,i*10, CONTENT.AIR);
+                chunks[i][j] = new WChunk(j*10,i*10, CONTENT.AIR);
             }
         }
         for(int j = 0; j<width; j++){
-            chunks[16][j] = new WorldChunk(j*10, 160, CONTENT.GRASS);
+            chunks[16][j] = new WChunk(j*10, 160, CONTENT.GRASS);
         }
         for(int i = 17; i<height; i++){
             for(int j = 0; j<width; j++){
@@ -35,53 +35,53 @@ public class Map {
                 } else {
                     c = CONTENT.DIRT;
                 }
-                chunks[i][j] = new WorldChunk(j*10,i*10, c);
+                chunks[i][j] = new WChunk(j*10,i*10, c);
             }
         }
     }
-    //Возвращает ссылку на WorldChunk по координатам X, Y.
-    public WorldChunk getChunk(int x, int y){
+    //Возвращает ссылку на WChunk по координатам X, Y.
+    public WChunk getChunk(int x, int y){
         if(width*10 < y || height*10 < x)
             return null;
         int i = Math.round((y - y%10)/10.0f);
         int j = Math.round((x - x%10)/10.0f);
-        return (WorldChunk)chunks[i][j];
+        return (WChunk)chunks[i][j];
     }
-    //Возвращает массив из смежных WorldChunk'ов
+    //Возвращает массив из смежных WChunk'ов
     //[7][0][1]
     //[6][X][2]
     //[5][4][3]
-    //X - наш WorldChunk
-    public WorldChunk[] getChunkNeighbors(int x, int y){
-        WorldChunk[] neighbors = {null, null, null, null, null, null, null, null};
+    //X - наш WChunk
+    public WChunk[] getChunkNeighbors(int x, int y){
+        WChunk[] neighbors = {null, null, null, null, null, null, null, null};
         if(width*10 < y || height*10 < x)
             return null;
         int i = Math.round((y - y%10)/10.0f);
         int j = Math.round((x - x%10)/10.0f);
         try{
         if((i-1)>=0){
-            neighbors[0] = (WorldChunk)chunks[i-1][j];
+            neighbors[0] = (WChunk)chunks[i-1][j];
         }
         if(((i-1)>=0)&&(j+1)<=(width-1)){
-            neighbors[1] = (WorldChunk)chunks[i-1][j+1];
+            neighbors[1] = (WChunk)chunks[i-1][j+1];
         }
         if((j+1)<=(width-1)){
-            neighbors[2] = (WorldChunk)chunks[i][j+1];
+            neighbors[2] = (WChunk)chunks[i][j+1];
         }
         if(((i+1)<=(height-1))&&(j+1)<=(width-1)){
-            neighbors[3] = (WorldChunk)chunks[i+1][j+1];
+            neighbors[3] = (WChunk)chunks[i+1][j+1];
         }
         if((i+1)<=(height-1)){
-            neighbors[4] = (WorldChunk)chunks[i+1][j];
+            neighbors[4] = (WChunk)chunks[i+1][j];
         }
         if(((i+1)<=(height-1))&&((j-1)>=0)){
-            neighbors[5] = (WorldChunk)chunks[i+1][j-1];
+            neighbors[5] = (WChunk)chunks[i+1][j-1];
         }
         if((j-1)>=0){
-            neighbors[6] = (WorldChunk)chunks[i][j-1];
+            neighbors[6] = (WChunk)chunks[i][j-1];
         }
         if(((j-1)>=0)&&((i-1)>=0)){
-            neighbors[7] = (WorldChunk)chunks[i-1][j-1];
+            neighbors[7] = (WChunk)chunks[i-1][j-1];
         }
         } catch (Exception e){
             System.out.println("getChunkNeighbors exception!");

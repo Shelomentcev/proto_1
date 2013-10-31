@@ -20,7 +20,7 @@ public class World extends JPanel implements Runnable{
     private final int DELAY = 50;
     private int interval = 0;
     //Клетка которая сейчас выделена
-    private WorldChunk selChunk;
+    private WChunk selChunk;
     Map map;
     Tree tree;
     //Заменить материал в выделенном на другой

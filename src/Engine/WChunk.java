@@ -11,23 +11,23 @@ import java.awt.Graphics2D;
  * To change this template use File | Settings | File Templates.
  */
 
-public class WorldChunk implements Chunk {
+public class WChunk implements Chunk {
     private int x, y;
     private boolean selected;
     private CONTENT content;
-    WorldChunk(){
+    WChunk(){
         this.x = 0;
         this.y = 0;
         this.content = CONTENT.EMPTY;
         this.selected = false;
     }
-    WorldChunk(int x, int y){
+    WChunk(int x, int y){
         this.x = x;
         this.y = y;
         this.content = CONTENT.EMPTY;
         this.selected = false;
     }
-    WorldChunk(int x, int y, CONTENT cont){
+    WChunk(int x, int y, CONTENT cont){
         this.x = x;
         this.y = y;
         this.content = cont;
