@@ -51,7 +51,28 @@ public class Tree implements Object{
         return true;
     }
     public void start(){
-
+        int size = parts.size();
+        for(int i = 0; i<size; i++){
+            WChunk c = parts.get(i);
+            if(c.contains() == Chunk.CONTENT.SEED){
+                c.replace(Chunk.CONTENT.TREE);
+                WChunk[] arr = map.getChunkNeighbors(c.getX(), c.getY());
+                if(arr[4].contains() == Chunk.CONTENT.DIRT){
+                    arr[4].replace(Chunk.CONTENT.ROOT);
+                    parts.add(arr[4]);
+                } else {
+                    System.out.println("Can't grove up!");
+                    return;
+                }
+                if(arr[0].contains() == Chunk.CONTENT.AIR){
+                    arr[0].replace(Chunk.CONTENT.LEAFS);
+                    parts.add(arr[0]);
+                } else {
+                    System.out.println("Can't grove up!");
+                    return;
+                }
+            }
+        }
     }
     public WChunk[] getParts(){
         return parts.toArray(new WChunk[parts.size()]);

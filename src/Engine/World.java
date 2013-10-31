@@ -69,4 +69,7 @@ public class World extends JPanel implements Runnable{
         selChunk = map.getChunk(x, y);
         selChunk.selectOn();
     }
+    public void nextTurn(){
+        tree.start();
+    }
 }

@@ -54,6 +54,9 @@ public class Prototype extends JFrame{
         JButton btnRoot = new JButton("Root");
         btnRoot.setName("btnRoot");
         btnRoot.addActionListener(listener);
+        JButton btnStart = new JButton("NEXT");
+        btnStart.setName("btnStart");
+        btnStart.addActionListener(listener);
         tools = new JPanel();
         Border toolsBorder = BorderFactory.createTitledBorder("TOOLS");
         tools.setBorder(toolsBorder);
@@ -62,6 +65,7 @@ public class Prototype extends JFrame{
         tools.add(btnRoot);
         tools.add(btnTree);
         tools.add(btnLeaf);
+        tools.add(btnStart);
         tools.setPreferredSize(new Dimension(100, 500));
         add(tools, BorderLayout.LINE_END);
         //Остальное
@@ -87,6 +91,8 @@ public class Prototype extends JFrame{
                 content = CONTENT.ROOT;
             } else if(c.getName() == "btnLeaf") {
                 content = CONTENT.LEAFS;
+            } else if(c.getName() == "btnStart") {
+                world.nextTurn();
             }
         }
     }
