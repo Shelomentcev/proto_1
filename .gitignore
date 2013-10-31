@@ -215,3 +215,7 @@ pip-log.txt
 .mr.developer.cfg
 #Java
 *.class
+# Intellij
+.idea/
+*.iml
+*.iws
