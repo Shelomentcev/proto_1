@@ -91,19 +91,19 @@ public class Tree implements Object{
     //Отрастить ещё древесную часть(TREE).
     public void growBranch(WChunk chunk){
         //this.addPart(chunk, Chunk.CONTENT.TREE);
-        /*if(chunk.contains() == Chunk.CONTENT.LEAF){
+        if(chunk.contains() == Chunk.CONTENT.LEAF){
             this.addPart(chunk, Chunk.CONTENT.TREE);
             WChunk[] n = map.getChunkNeighbors(chunk.getX(), chunk.getY());
-            if((n[0]!=null) && (n[0].contains() == Chunk.CONTENT.AIR)){
+            if((n[4]!=null) && (n[0]!=null) && (n[0].contains() == Chunk.CONTENT.AIR) && (n[4].contains() == Chunk.CONTENT.TREE)){
                 growLeaf(n[0]);
-            }else if((n[6]!=null) && (n[6].contains() == Chunk.CONTENT.AIR)){
+            }else if((n[2]!=null) && (n[6]!=null) && (n[6].contains() == Chunk.CONTENT.AIR) && (n[2].contains() == Chunk.CONTENT.TREE)){
                 growLeaf(n[6]);
-            }else if((n[2]!=null) && (n[2].contains() == Chunk.CONTENT.AIR)){
+            }else if((n[6]!=null) && (n[2]!=null) && (n[2].contains() == Chunk.CONTENT.AIR)&& (n[6].contains() == Chunk.CONTENT.TREE)){
                 growLeaf(n[2]);
             }
-        } else {*/
+        } else {
             this.addPart(chunk, Chunk.CONTENT.TREE);
-        //}
+        }
     }
     //Отрастить ещё корней
     public void growRoot(WChunk chunk){

@@ -18,7 +18,6 @@ public class World extends JPanel implements Runnable{
     }
     private Thread animator;
     private final int DELAY = 50;
-    private int interval = 0;
     //Клетка которая сейчас выделена
     private WChunk selChunk;
     Map map;
