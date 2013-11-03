@@ -25,7 +25,37 @@ public class World extends JPanel implements Runnable{
     Tree tree;
     //Заменить материал в выделенном на другой
     public void replaceSelected(CONTENT c){
-        selChunk.replace(c);
+        if((selChunk.contains() == CONTENT.LEAF) && (selChunk.getObject() == tree) && (c == CONTENT.TREE)){
+            tree.growBranch(selChunk);
+        } else {
+            WChunk[] chunks = map.getChunkNeighbors(selChunk.getX(), selChunk.getY());
+            //Просмотреть все 8 смежных клеток
+            for(int i = 0; i<8; i++){
+                WChunk chunk = chunks[i];
+                if(chunk.getObject() == tree){
+                    //Если рядом Chunk TREE и мы хотим вырастить листок(C == LEAF), то
+                    if((chunk.contains() == CONTENT.TREE) && (c == CONTENT.LEAF) && (selChunk.contains() == CONTENT.AIR)){
+                        //Растим листок
+                        tree.growLeaf(selChunk);
+                        //Выходим из цикла
+                        break;
+                    }
+                    //По аналогии
+                    if((chunk.contains() == CONTENT.TREE) && (c == CONTENT.TREE) && (selChunk.contains() == CONTENT.AIR)){
+                        tree.growBranch(selChunk);
+                        break;
+                    }
+                    if((chunk.contains() == CONTENT.ROOT) && (c == CONTENT.ROOT)&& (selChunk.contains() == CONTENT.DIRT)){
+                        tree.growRoot(selChunk);
+                        break;
+                    }
+                    if((chunk.contains() == CONTENT.ROOT) && (c == CONTENT.TREE) && (selChunk.contains() == CONTENT.AIR)){
+                        tree.growBranch(selChunk);
+                        break;
+                    }
+                }
+            }
+        }
     }
     public boolean plantSeed(int x, int y){
         return tree.plantTree(x, y);
@@ -67,7 +97,9 @@ public class World extends JPanel implements Runnable{
             selChunk.selectOff();
         }
         selChunk = map.getChunk(x, y);
-        selChunk.selectOn();
+        if(selChunk!=null){
+            selChunk.selectOn();
+        }
     }
     public void nextTurn(){
         tree.start();

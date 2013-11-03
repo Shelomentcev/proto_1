@@ -15,6 +15,8 @@ public class WChunk implements Chunk {
     private int x, y;
     private boolean selected;
     private CONTENT content;
+    //Объект к которому принадлежжит WChunk
+    private Object  obj = null;
     WChunk(){
         this.x = 0;
         this.y = 0;
@@ -60,6 +62,14 @@ public class WChunk implements Chunk {
     public  void selectOff(){
         selected = false;
     }
+    //Присвоить WChunk объекту
+    public void setObject(Object nobject){
+        this.obj = nobject;
+    }
+    //Получить хозяина WChunk'a
+    public Object getObject(){
+        return this.obj;
+    }
     //Возвращает цвет в зависимости от материала
     private Color color(){
         Color c = new Color(255, 20, 147);
@@ -71,7 +81,7 @@ public class WChunk implements Chunk {
             case GRASS: c = new Color(188, 238, 104);   break;
             case TREE:  c = new Color(165, 42, 42);     break;
             case ROOT:  c = new Color(125, 42, 42);     break;
-            case LEAFS: c = new Color(0, 238, 0);       break;
+            case LEAF: c = new Color(0, 238, 0);       break;
             case SEED:  c = new Color(255, 255, 20);    break;
             default:    c = new Color(255, 20, 147);    break;
         }

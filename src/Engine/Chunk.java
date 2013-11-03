@@ -9,7 +9,7 @@ package Engine;
  */
 import java.awt.Graphics2D;
 public interface Chunk {
-    public enum CONTENT{EMPTY, AIR, STONE, DIRT, GRASS, TREE, ROOT, LEAFS, SEED}
+    public enum CONTENT{EMPTY, AIR, STONE, DIRT, GRASS, TREE, ROOT, LEAF, SEED}
     public void draw(Graphics2D g2d);
     public int getX();
     public int getY();

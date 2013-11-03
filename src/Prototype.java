@@ -90,7 +90,7 @@ public class Prototype extends JFrame{
             } else if(c.getName() == "btnRoot") {
                 content = CONTENT.ROOT;
             } else if(c.getName() == "btnLeaf") {
-                content = CONTENT.LEAFS;
+                content = CONTENT.LEAF;
             } else if(c.getName() == "btnStart") {
                 world.nextTurn();
             }
