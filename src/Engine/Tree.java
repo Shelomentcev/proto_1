@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class Tree implements Object{
     private Map map = null;
+    private int minerals = 0, energy = 25, water = 0;
     private ArrayList<WChunk> parts = new ArrayList<WChunk>();
     Tree(){
         map = null;
@@ -74,21 +75,66 @@ public class Tree implements Object{
                     System.out.println("Can't grove up!");
                     return;
                 }
+            } else if(c.contains() == Chunk.CONTENT.ROOT){
+                minerals+=5;
+                water+=10;
+                energy-=1;
+            } else if(c.contains() == Chunk.CONTENT.TREE) {
+                minerals-=2;
+                water-=2;
+            } else  if(c.contains() == Chunk.CONTENT.LEAF) {
+                water-=8;
+                minerals-=3;
+                energy+=2;
             }
+        }
+       if(water<0){
+            energy+=water;
+            water = 0;
+        }
+        if (minerals<0){
+            energy+=minerals;
+            minerals = 0;
+        }
+        if (energy<0) {
+            this.partDie();
+            System.out.println("Tree is dying!");
         }
     }
     public WChunk[] getParts(){
         return parts.toArray(new WChunk[parts.size()]);
     }
-    //Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÑ‚ Ñ‡Ð°ÑÑ‚ÑŒ Ðº Ð´ÐµÑ€ÐµÐ²Ñƒ.
-    //ÐÐ• Ð”ÐžÐ‘ÐžÐ’Ð›Ð¯Ð¢Ð¬ Ñ‡Ð°ÑÑ‚Ð¸ Ñ‡ÐµÑ€ÐµÐ· parts.add !!!
-    //Ð¢Ð¾Ð»ÑŒÐºÐ¾ Ñ‡ÐµÑ€ÐµÐ· ÑÑ‚Ð¾Ñ‚ Ð¼ÐµÑ‚Ð¾Ð´.
+    //Äîáàâëÿåò ÷àñòü ê äåðåâó.
+    //ÍÅ ÄÎÁÎÂËßÒÜ ÷àñòè ÷åðåç parts.add !!!
+    //Òîëüêî ÷åðåç ýòîò ìåòîä.
     private void addPart(WChunk chunk, Chunk.CONTENT cont){
+        if(cont == Chunk.CONTENT.TREE){
+            if(energy<5){
+                System.out.println("Need more energy!");
+                return;
+            } else {
+                energy-=5;
+            }
+        } else if (cont == Chunk.CONTENT.ROOT){
+            if(energy<10){
+                System.out.println("Need more energy!");
+                return;
+            } else {
+                energy-=10;
+            }
+        } else if (cont == Chunk.CONTENT.LEAF){
+            if(energy<10){
+                System.out.println("Need more energy!");
+                return;
+            } else {
+                energy-=10;
+            }
+        }
         chunk.replace(cont);
         chunk.setObject(this);
         parts.add(chunk);
     }
-    //ÐžÑ‚Ñ€Ð°ÑÑ‚Ð¸Ñ‚ÑŒ ÐµÑ‰Ñ‘ Ð´Ñ€ÐµÐ²ÐµÑÐ½ÑƒÑŽ Ñ‡Ð°ÑÑ‚ÑŒ(TREE).
+    //Îòðàñòèòü åù¸ äðåâåñíóþ ÷àñòü(TREE).
     public void growBranch(WChunk chunk){
         //this.addPart(chunk, Chunk.CONTENT.TREE);
         if(chunk.contains() == Chunk.CONTENT.LEAF){
@@ -105,12 +151,37 @@ public class Tree implements Object{
             this.addPart(chunk, Chunk.CONTENT.TREE);
         }
     }
-    //ÐžÑ‚Ñ€Ð°ÑÑ‚Ð¸Ñ‚ÑŒ ÐµÑ‰Ñ‘ ÐºÐ¾Ñ€Ð½ÐµÐ¹
+    //Îòðàñòèòü åù¸ êîðíåé
     public void growRoot(WChunk chunk){
         this.addPart(chunk, Chunk.CONTENT.ROOT);
     }
-    //ÐžÑ‚Ñ€Ð°ÑÑ‚Ð¸Ñ‚ÑŒ ÐµÑ‰Ñ‘ Ð»Ð¸ÑÑ‚Ð²Ñ‹
+    //Îòðàñòèòü åù¸ ëèñòâû
     public void growLeaf(WChunk chunk){
         this.addPart(chunk, Chunk.CONTENT.LEAF);
+    }
+    //Âîçâðàùàåò êîë-âî ìèíåðàëîâ
+    public int getMinerals(){
+        return minerals;
+    }
+    //Âîçâðàùàåò êîë-âî ýíåðãèè
+    public int getEnergy(){
+        return energy;
+    }
+    //Âîçâðàùàåò êîë-âî âîäû
+    public int getWater(){
+        return water;
+    }
+    //
+    public void partDie(){
+       int size = parts.size();
+       for(int i = 0; i<size; i++){
+           WChunk c = parts.get(i);
+           if(c.contains() == Chunk.CONTENT.LEAF){
+               c.setObject(null);
+               c.replace(Chunk.CONTENT.AIR);
+               parts.remove(i);
+               break;
+           }
+       }
     }
 }

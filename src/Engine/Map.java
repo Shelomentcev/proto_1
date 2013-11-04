@@ -10,11 +10,11 @@ import java.awt.Graphics2D;
  * Time: 9:03
  * To change this template use File | Settings | File Templates.
  */
-//РљР»Р°СЃСЃ РєР°СЂС‚С‹, С…СЂР°РЅРёС‚ РІ СЃРµР±Рµ WChunk'Рё
+//Класс карты, хранит в себе WChunk'и
 public class Map {
     private Chunk[][] chunks;
     private int width, height;
-    //РџРѕРєР° С‡С‚Рѕ РіРµРЅРµСЂРёСЂСѓРµС‚ СЃРµС‚РєСѓ РёР· С‡Р°РЅРєРѕРІ 50 РЅР° 50.
+    //Пока что генерирует сетку из чанков 50 на 50.
     Map(){
         height = width = 50;
         chunks = new WChunk[height][width];
@@ -39,7 +39,7 @@ public class Map {
             }
         }
     }
-    //Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃСЃС‹Р»РєСѓ РЅР° WChunk РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј X, Y.
+    //Возвращает ссылку на WChunk по координатам X, Y.
     public WChunk getChunk(int x, int y){
         if(width*10 < y || height*10 < x)
             return null;
@@ -47,11 +47,11 @@ public class Map {
         int j = Math.round((x - x%10)/10.0f);
         return (WChunk)chunks[i][j];
     }
-    //Р’РѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ РёР· СЃРјРµР¶РЅС‹С… WChunk'РѕРІ
+    //Возвращает массив из смежных WChunk'ов
     //[7][0][1]
     //[6][X][2]
     //[5][4][3]
-    //X - РЅР°С€ WChunk
+    //X - наш WChunk
     public WChunk[] getChunkNeighbors(int x, int y){
         WChunk[] neighbors = {null, null, null, null, null, null, null, null};
         if(width*10 < y || height*10 < x)

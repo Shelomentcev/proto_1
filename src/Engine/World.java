@@ -1,6 +1,6 @@
 package Engine;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
@@ -9,37 +9,42 @@ import java.awt.Toolkit;
 import Engine.Chunk.CONTENT;
 
 public class World extends JPanel implements Runnable{
-    public World(){
+    private JLabel rMinerals, rWater, rEnergy;
+    private int interval = 0;
+    public World(JLabel lMinerals, JLabel lWater, JLabel lEnergy){
         map = new Map();
         tree = new Tree(map);
         selChunk = null;
+        rMinerals = lMinerals;
+        rWater    = lWater;
+        rEnergy   = lEnergy;
         setBackground(Color.white);
         setDoubleBuffered(true);
     }
     private Thread animator;
     private final int DELAY = 50;
-    //РљР»РµС‚РєР° РєРѕС‚РѕСЂР°СЏ СЃРµР№С‡Р°СЃ РІС‹РґРµР»РµРЅР°
+    //Клетка которая сейчас выделена
     private WChunk selChunk;
     Map map;
     Tree tree;
-    //Р—Р°РјРµРЅРёС‚СЊ РјР°С‚РµСЂРёР°Р» РІ РІС‹РґРµР»РµРЅРЅРѕРј РЅР° РґСЂСѓРіРѕР№
+    //Заменить материал в выделенном на другой
     public void replaceSelected(CONTENT c){
         if((selChunk.contains() == CONTENT.LEAF) && (selChunk.getObject() == tree) && (c == CONTENT.TREE)){
             tree.growBranch(selChunk);
         } else {
             WChunk[] chunks = map.getChunkNeighbors(selChunk.getX(), selChunk.getY());
-            //РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РІСЃРµ 8 СЃРјРµР¶РЅС‹С… РєР»РµС‚РѕРє
+            //Просмотреть все 8 смежных клеток
             for(int i = 0; i<8; i++){
                 WChunk chunk = chunks[i];
                 if(chunk.getObject() == tree){
-                    //Р•СЃР»Рё СЂСЏРґРѕРј Chunk TREE Рё РјС‹ С…РѕС‚РёРј РІС‹СЂР°СЃС‚РёС‚СЊ Р»РёСЃС‚РѕРє(C == LEAF), С‚Рѕ
+                    //Если рядом Chunk TREE и мы хотим вырастить листок(C == LEAF), то
                     if((chunk.contains() == CONTENT.TREE) && (c == CONTENT.LEAF) && (selChunk.contains() == CONTENT.AIR)){
-                        //Р Р°СЃС‚РёРј Р»РёСЃС‚РѕРє
+                        //Растим листок
                         tree.growLeaf(selChunk);
-                        //Р’С‹С…РѕРґРёРј РёР· С†РёРєР»Р°
+                        //Выходим из цикла
                         break;
                     }
-                    //РџРѕ Р°РЅР°Р»РѕРіРёРё
+                    //По аналогии
                     if((chunk.contains() == CONTENT.TREE) && (c == CONTENT.TREE) && (selChunk.contains() == CONTENT.AIR)){
                         tree.growBranch(selChunk);
                         break;
@@ -76,6 +81,12 @@ public class World extends JPanel implements Runnable{
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
         while(true){
+            if(interval >= 1000){
+                interval = 0;
+                nextTurn();
+            } else {
+                interval+=DELAY;
+            }
             repaint();
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
@@ -90,7 +101,7 @@ public class World extends JPanel implements Runnable{
             beforeTime = System.currentTimeMillis();
         }
     }
-    //Р’С‹РґРёР»СЏРµС‚ СЌР»РµРјРµРЅС‚ РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј x, y
+    //Выдиляет элемент по координатам x, y
     public void select(int x, int y){
         if(selChunk!=null){
             selChunk.selectOff();
@@ -102,5 +113,12 @@ public class World extends JPanel implements Runnable{
     }
     public void nextTurn(){
         tree.start();
+        rEnergy.setText("Energy: "+tree.getEnergy());
+        rWater.setText("Water: "+tree.getWater());
+        rMinerals.setText("Minerals: "+tree.getMinerals());
+    }
+    public void restart(){
+        map = new Map();
+        tree = new Tree(map);
     }
 }

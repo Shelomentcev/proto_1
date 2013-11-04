@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 
 import Engine.World;
 import Engine.Chunk.CONTENT;
-/**
+/*
  * Created with IntelliJ IDEA.
  * User: SED
  * Date: 29.10.13
@@ -23,7 +23,7 @@ import Engine.Chunk.CONTENT;
  * To change this template use File | Settings | File Templates.
  */
 public class Prototype extends JFrame{
-    private JLabel labelX, labelY;
+    private JLabel labelX, labelY, rWater, rMineral, rEnergy;
     private JPanel tools;
     private World world;
     private CONTENT content;
@@ -32,19 +32,26 @@ public class Prototype extends JFrame{
         content = CONTENT.DIRT;
         showGUI();
     }
-    //Р—РґРµСЃСЊ СЃРѕР·РґР°С‘С‚СЃСЏ РёРЅС‚РµСЂС„РµР№СЃ
+    //Здесь создаётся интерфейс
     public void showGUI(){
-        //РњС‹С€РєР°
+        //Мышка
         PlayerInput adapter = new PlayerInput();
-        //РњРёСЂ
-        world = new World();
+        //Датчики ресурсов
+        rMineral = new JLabel("Minerals: 0");
+        rWater   = new JLabel("Water: 0");
+        rEnergy  = new JLabel("Energy: 0");
+        //Мир
+        world = new World(rMineral, rWater, rEnergy);
         add(world);
-        //РРЅСЃС‚СЂСѓРјРµРЅС‚С‹
+        //Инструменты
         world.addMouseListener(adapter);
         world.addMouseMotionListener(adapter);
         labelX = new JLabel("X: 0");
         labelY = new JLabel("Y: 0");
         BtnActionListener listener = new BtnActionListener();
+        JButton btnRestart = new JButton("Restart");
+        btnRestart.setName("btnRestart");
+        btnRestart.addActionListener(listener);
         JButton btnLeaf = new JButton("Leaf");
         btnLeaf.setName("btnLeaf");
         btnLeaf.addActionListener(listener);
@@ -62,13 +69,17 @@ public class Prototype extends JFrame{
         tools.setBorder(toolsBorder);
         tools.add(labelX);
         tools.add(labelY);
+        tools.add(rMineral);
+        tools.add(rWater);
+        tools.add(rEnergy);
         tools.add(btnRoot);
         tools.add(btnTree);
         tools.add(btnLeaf);
         tools.add(btnStart);
+        tools.add(btnRestart);
         tools.setPreferredSize(new Dimension(100, 500));
         add(tools, BorderLayout.LINE_END);
-        //РћСЃС‚Р°Р»СЊРЅРѕРµ
+        //Остальное
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 500);
         setTitle("Prototype");
@@ -93,6 +104,9 @@ public class Prototype extends JFrame{
                 content = CONTENT.LEAF;
             } else if(c.getName() == "btnStart") {
                 world.nextTurn();
+            } else if(c.getName() == "btnRestart") {
+                gameStarted = false;
+                world.restart();
             }
         }
     }

@@ -8,8 +8,8 @@ package Engine;
  * To change this template use File | Settings | File Templates.
  */
 public interface Object {
-    //РћСЃРЅРѕРІРЅРѕР№ РјРµС‚РѕРґ РІ РЅС‘Рј РѕРїРёСЃС‹РІР°РµС‚СЃСЏ Р»РѕРіРёРєР° РћР±СЉРµРєС‚Р°
+    //Основной метод в нём описывается логика Объекта
     public void start();
-    //РџРѕР»СѓС‡РёС‚СЊ С‡Р°СЃС‚Рё РѕР±СЉРµРєС‚Р°
+    //Получить части объекта
     public WChunk[] getParts();
 }

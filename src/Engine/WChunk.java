@@ -15,7 +15,7 @@ public class WChunk implements Chunk {
     private int x, y;
     private boolean selected;
     private CONTENT content;
-    //РћР±СЉРµРєС‚ Рє РєРѕС‚РѕСЂРѕРјСѓ РїСЂРёРЅР°РґР»РµР¶Р¶РёС‚ WChunk
+    //Объект к которому принадлежжит WChunk
     private Object  obj = null;
     WChunk(){
         this.x = 0;
@@ -50,27 +50,27 @@ public class WChunk implements Chunk {
     public void setY(int ny){
         this.y = ny;
     }
-    //Р—Р°РґР°С‘С‚ РЅРѕРІРѕРµ СЃРѕРґРµСЂР¶РёРјРѕРµ С‡Р°РЅРєР°
+    //Задаёт новое содержимое чанка
     public void replace(CONTENT c){
         content = c;
     }
-    //Р’РєР»СЋС‡Р°РµС‚ РІС‹РґРµР»РµРЅРёРµ
+    //Включает выделение
     public void selectOn(){
         selected = true;
     }
-    //Р’С‹РєР»СЋС‡Р°РµС‚ РІС‹РґРµР»РµРЅРёРµ
+    //Выключает выделение
     public  void selectOff(){
         selected = false;
     }
-    //РџСЂРёСЃРІРѕРёС‚СЊ WChunk РѕР±СЉРµРєС‚Сѓ
+    //Присвоить WChunk объекту
     public void setObject(Object nobject){
         this.obj = nobject;
     }
-    //РџРѕР»СѓС‡РёС‚СЊ С…РѕР·СЏРёРЅР° WChunk'a
+    //Получить хозяина WChunk'a
     public Object getObject(){
         return this.obj;
     }
-    //Р’РѕР·РІСЂР°С‰Р°РµС‚ С†РІРµС‚ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РјР°С‚РµСЂРёР°Р»Р°
+    //Возвращает цвет в зависимости от материала
     private Color color(){
         Color c = new Color(255, 20, 147);
         switch(content){
